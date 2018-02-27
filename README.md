@@ -30,7 +30,7 @@ Kubernetes application development environment anywehere.
 1. start docker container as daemon.
 
 ```
-docker run -d -v ${HOME}/.kube:/root/.kube -p 2200:22 archway/k8s-dev:$(tag)
+docker run -d -v ${HOME}/.kube:/home/me/.kube -p 2200:22 archway/k8s-dev:$(tag)
 ```
 
 2. connect SSH to docker container
@@ -58,7 +58,7 @@ code .
 1. start docker container as daemon.
 
 ```
-docker run -d -v /c/User/%USERNAME%/.kube:/root/.kube -p 2200:22 archway/k8s-dev:latest
+docker run -d -v /c/User/%USERNAME%/.kube:/home/me/.kube -p 2200:22 archway/k8s-dev:latest
 ```
 
 2. start MobaXterm.
