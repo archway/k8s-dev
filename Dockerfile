@@ -48,11 +48,19 @@ WORKDIR /home/me
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 RUN apt-get update && apt-get install -y dotnet-sdk-${DOTNET_VERSION}
 
+# install Open JDK 8
+RUN apt-get update &&\
+    apt-get -y install openjdk-8-jdk &&\
+    sh -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /etc/profile.d/jdk.sh" &&\
+    sh -c "echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> /etc/profile.d/jdk.sh" &&\
+    . /etc/profile.d/jdk.sh
+
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 
 USER me
 RUN code --install-extension ms-vscode.csharp
+RUN code --install-extension vscjava.vscode-java-pack
 
 USER root
 
