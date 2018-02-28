@@ -4,6 +4,7 @@ ENV KUBECTL_VERSION 1.9.0
 ENV HELM_VERSION 2.8.0
 ENV HELM_FILENAME helm-v${HELM_VERSION}-linux-amd64.tar.gz
 ENV DOTNET_VERSION 2.1.4
+ENV GOLANG_VERSION 1.10
 
 # install base apps
 RUN apt-get update && apt install -y git openssh-client openssh-server gnupg curl make vim bash 
@@ -55,12 +56,22 @@ RUN apt-get update &&\
     sh -c "echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> /etc/profile.d/jdk.sh" &&\
     . /etc/profile.d/jdk.sh
 
+RUN curl -s https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz | tar -C /usr/local -xz
+ENV PATH $PATH:/usr/local/go/bin
+
+RUN apt-get clean all
+
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 
 USER me
 RUN code --install-extension ms-vscode.csharp
 RUN code --install-extension vscjava.vscode-java-pack
+
+RUN mkdir $HOME/go
+RUN sh -c "echo 'export GOPATH=$HOME/go' >> .bashrc" &&\
+    sh -c "echo 'export PATH=$PATH:$GOPATH/bin' >> .bashrc"
+RUN code --install-extension lukehoban.go
 
 USER root
 

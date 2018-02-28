@@ -15,7 +15,8 @@ Kubernetes application development environment anywehere.
 |Vim               ||
 |Visual Studio Code||
 |.NET Core SDK     |v2.1.4 |
-|Open JDK          |v8     |
+|Open JDK          |v8u151 |
+|Go                |v1.10  |
 
 ## How to use this container image
 
