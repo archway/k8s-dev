@@ -3,6 +3,7 @@ FROM ubuntu:latest
 ENV KUBECTL_VERSION 1.9.0
 ENV HELM_VERSION 2.8.0
 ENV HELM_FILENAME helm-v${HELM_VERSION}-linux-amd64.tar.gz
+ENV DOTNET_VERSION 2.1.4
 
 # install base apps
 RUN apt-get update && apt install -y git openssh-client openssh-server gnupg curl make vim bash 
@@ -43,5 +44,15 @@ RUN useradd -ms /bin/bash me
 RUN echo 'me:1qaz2wsx' | chpasswd
 WORKDIR /home/me
 
+# install .NET Core SDK
+RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+RUN apt-get update && apt-get install -y dotnet-sdk-${DOTNET_VERSION}
+
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+
+USER me
+RUN code --install-extension ms-vscode.csharp
+
+USER root
+
