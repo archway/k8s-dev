@@ -17,6 +17,7 @@ Kubernetes application development environment anywehere.
 |.NET Core SDK     |v2.1.4 |
 |Open JDK          |v8u151 |
 |Go                |v1.10  |
+|node.js           |v9.6.1 |
 
 ## How to use this container image
 

@@ -7,7 +7,7 @@ ENV DOTNET_VERSION 2.1.4
 ENV GOLANG_VERSION 1.10
 
 # install base apps
-RUN apt-get update && apt install -y git openssh-client openssh-server gnupg curl make vim bash 
+RUN apt-get update && apt install -y sudo git openssh-client openssh-server gnupg curl make vim bash 
 
 # setup ssh server
 RUN mkdir /var/run/sshd
@@ -42,7 +42,9 @@ RUN apt-get update && apt-get install -y code
 
 # add user for develop
 RUN useradd -ms /bin/bash me
+RUN echo 'root:1qaz2wsx' | chpasswd
 RUN echo 'me:1qaz2wsx' | chpasswd
+RUN sh -c "echo 'me       ALL=(ALL) ALL' >> /etc/sudoers"
 WORKDIR /home/me
 
 # install .NET Core SDK
@@ -56,8 +58,18 @@ RUN apt-get update &&\
     sh -c "echo 'export PATH=\$JAVA_HOME/bin:\$PATH' >> /etc/profile.d/jdk.sh" &&\
     . /etc/profile.d/jdk.sh
 
+# install GO language
 RUN curl -s https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz | tar -C /usr/local -xz
 ENV PATH $PATH:/usr/local/go/bin
+
+# install Node.JS
+RUN apt-get update &&\
+    apt-get install -y nodejs npm &&\
+    npm cache clean &&\
+    npm install n -g &&\
+    n stable &&\
+    ln -sf /usr/local/bin/node /usr/bin/node &&\
+    apt-get purge -y nodejs npm
 
 RUN apt-get clean all
 
