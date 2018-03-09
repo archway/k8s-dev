@@ -77,4 +77,4 @@ docker run -d -v /c/User/%USERNAME%/.kube:/home/me/.kube -p 2200:22 archway/k8s-
 |Port                                 |2200     |
 |Advanced SSH settings > X11Forwarding|check    |
 
-6. input password `1qax2wsx` on MobaXterm prompt.
+6. input password `1qaz2wsx` on MobaXterm prompt.
